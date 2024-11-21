@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 # .env 파일 로드
 load_dotenv()
 
-# Firestroe 초기화
+# Firestore 초기화
 cred_path = os.getenv("FIREBASE_CREDENTIALS_PATH")
 cred = credentials.Certificate(cred_path)
 firebase_admin.initialize_app(cred)
@@ -81,6 +81,7 @@ def crawl_and_save_artist_songs(artist_id):
     print(f"{len(results)} songs from artist {artist} saved to Firestore.")
     return results
 
+# 아티스트 ID 넣으면 곡 추가 가능
 artist_ids = ["80246393"]
 for artist_id in artist_ids:
     crawl_and_save_artist_songs(artist_id)
