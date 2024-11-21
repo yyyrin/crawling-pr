@@ -3,6 +3,7 @@
 
 # Python 가상환경 폴더
 .venv/
+venv/
 
 # 기타
 __pycache__/
