@@ -38,7 +38,7 @@ def upload_excel_to_Firestore(file_path):
     # Setlist Info 시트 처리
     setlist_sheet = workbook["Setlist Info Final"]
     for row in setlist_sheet.iter_rows(min_row=2, values_only=True):
-        concert_id, concert_name, order, track_id, title, artist, youtube_url = row
+        concert_id, concert_name, setlist_id, order, track_id, title, artist, youtube_url = row
 
         # Songs 컬렉션에서 추가 데이터 가져오기
         song_doc = db.collection("songs").document(track_id).get()
@@ -62,10 +62,11 @@ def upload_excel_to_Firestore(file_path):
                 "track_id": track_id,
                 "youtube_url": youtube_url,
             }
-        
+
+
         # Setlists 서브컬렉션에 저장
-        track_doc_id = f"{concert_id}-track{order:02}"
-        db.collection("concerts").document(concert_id).collection("setlists").document(track_doc_id).set(setlist_data)
-        print(f"Uploaded setlist for concert: {concert_name}, track: {title}")
+        track_doc_id = f"{setlist_id}-track{order:02}"
+        db.collection("concerts").document(concert_id).collection("setlists").document(setlist_id).collection("tracks").document(track_doc_id).set(setlist_data)
+        print(f"Uploaded track: {title} in setlist: {setlist_id} for concert: {concert_name}")
 
 upload_excel_to_Firestore("C:/Users/qsc13/Documents/day6_data/day6_concert_data.xlsx")
